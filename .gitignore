@@ -5,3 +5,4 @@
 /HS-Graph/*.settings
 /HS-Graph/*.classpath
 /HS-Graph/*.project
+*.orig
