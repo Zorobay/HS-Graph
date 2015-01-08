@@ -1,7 +1,6 @@
 .bballs{
-	-fx-font: 66 arial;
+	-fx-font: 16 arial;
 	-fx-text-fill: red;
-	-fx-base: chartreuse;
-	-fx-padding: 100;
-	
+	-fx-base: black;
+	-fx-padding: 10;
 }

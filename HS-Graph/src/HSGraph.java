@@ -39,6 +39,7 @@ public class HSGraph extends Application {
 		
 		//The submit button
 		Button drawButton = new Button("Draw");
+		drawButton.getStyleClass().add("bballs");
 		
 		//Add all components except canvas
 		grid.add(yLabel, 0, 0);
@@ -60,6 +61,7 @@ public class HSGraph extends Application {
 		});
 
 		Scene scene = new Scene(grid);
+		scene.getStylesheets().add(HSGraph.class.getResource("style.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
