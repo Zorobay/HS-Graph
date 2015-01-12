@@ -5,3 +5,13 @@
 	-fx-padding: 100;
 	
 }
+
+.redb{
+	-fx-base: red
+}
+.greenb{
+	-fx-base: green
+}
+.blueb{
+	-fx-base: blue
+}
