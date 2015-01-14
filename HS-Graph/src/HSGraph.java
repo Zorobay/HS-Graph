@@ -19,7 +19,7 @@ public class HSGraph extends Application {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("HS-Graph");
+		primaryStage.setTitle("Salsan");
 
 		//Grid Pane Setup
 		GridPane grid = new GridPane();
