@@ -1,9 +1,9 @@
 
-#*.metadata
+*.metadata
 *.recommenders
 
 #/HS-Graph/*.settings
 #/HS-Graph/*.classpath
 #/HS-Graph/*.project
-#/HS-Graph/bin
+/HS-Graph/bin
 *.orig
