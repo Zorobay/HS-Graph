@@ -19,20 +19,26 @@ public class GraphField {
 		//Paint from origo in positive direction
 		for(double i = -(canvas.getWidth()/2); i <= canvas.getWidth() / 2; i++){
 			System.out.println(i + "  " + m + "  " + c);
-			drawLine(canvas.getGraphicsContext2D(), (int)i);
+			drawLine(getGC2D(), (int)i);
 		}
+	}
+	
+	public void clearCanvas(){ //clears the canvas and repaints the axis
+		getGC2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		paintAxis();
 	}
 
 	private void drawLine(GraphicsContext gc, int x) {
-		gc.setFill(Color.BLACK);
+		gc.setFill(Color.RED);
 		Point coord = toCanvasCoordinates(x, m * x + c);
 		Point coord2 = toCanvasCoordinates(x + 1, m * (x + 1) + c);
 		gc.strokeLine(coord.getX(), coord.getY(), coord2.getX(), coord2.getY());
 	}
 
 	private void paintAxis() {
-		canvas.getGraphicsContext2D().strokeLine(canvas.getWidth() / 2, canvas.getHeight(), canvas.getWidth() / 2, 0); // Vertical y axis
-		canvas.getGraphicsContext2D().strokeLine(0, canvas.getHeight() / 2, canvas.getWidth(), canvas.getHeight() / 2); // Horizontal x axis
+		getGC2D().setFill(Color.RED);
+		getGC2D().strokeLine(canvas.getWidth() / 2, canvas.getHeight(), canvas.getWidth() / 2, 0); // Vertical y axis
+		getGC2D().strokeLine(0, canvas.getHeight() / 2, canvas.getWidth(), canvas.getHeight() / 2); // Horizontal x axis
 	}
 	
 	private Point toCanvasCoordinates(int x, int y){ //Converts to conventional coordinates (-x to x) to (0 to x), same with y
@@ -40,8 +46,13 @@ public class GraphField {
 		int yCord = (int)canvas.getHeight() / 2 - y;
 		return new Point(xCord, yCord);
 	}
+	
 	public Canvas getCanvas() {
 		return canvas;
+	}
+	
+	private GraphicsContext getGC2D(){
+		return canvas.getGraphicsContext2D();
 	}
 
 	public void setm(int m) {
