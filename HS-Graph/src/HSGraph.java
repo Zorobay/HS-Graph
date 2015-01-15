@@ -19,6 +19,7 @@ public class HSGraph extends Application {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
+
 		primaryStage.setTitle("Snapsnopp flippflopp! :)");
 		//Clara är en morot
 
