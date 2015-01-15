@@ -19,7 +19,8 @@ public class HSGraph extends Application {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("HS-Graph");
+		primaryStage.setTitle("Snapsnopp flippflopp! :)");
+		//Clara är en morot
 
 		//Grid Pane Setup
 		GridPane grid = new GridPane();
