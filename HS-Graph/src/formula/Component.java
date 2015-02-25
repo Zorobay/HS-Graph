@@ -1,16 +1,7 @@
 package formula;
 
-public class Component { //This will be the parent object of all components
+public interface Component { //This is the interface to all component type classes
 	
-	private String type;
-	private double value;
-	
-	public void Component(String type){
-		//Do some shit
-	}
-	
-	public double getValue(double xValue){
-		return value;
-	}
+	public double getValue(double xValue);
 	
 }

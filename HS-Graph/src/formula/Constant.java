@@ -1,6 +1,6 @@
 package formula;
 
-public class Constant extends Component{
+public class Constant implements Component{
 	
 	double value;
 	

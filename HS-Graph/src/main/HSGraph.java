@@ -8,13 +8,20 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import formula.FormulaExtractor;
+import formula.Function;
 
 public class HSGraph extends Application {
 	
@@ -37,51 +44,103 @@ public class HSGraph extends Application {
 		grid.setHgap(5);
 		grid.setVgap(5);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		grid.setGridLinesVisible(false);
+		grid.setGridLinesVisible(true);
 
-		//List view test!!
-		ListView<String> list = new ListView<>();
-		list.setPrefWidth(70);
-		ObservableList<String> items = FXCollections.observableArrayList();
-		list.setItems(items);
+		//Setup TableView
+		TableView table = new TableView();
+		table.setEditable(true);
 		
-		//Labels
-		Label yLabel = new Label("y = ");
+		//Setup table columns
+		TableColumn<Function, String> functionColumn = new TableColumn<>("Function");
+		functionColumn.setSortable(false);
+		functionColumn.setCellValueFactory(new PropertyValueFactory<>("Function"));
+		functionColumn.setCellFactory(TextFieldTableCell.<Function>forTableColumn());
 		
-		//Input fields
-		TextField input = new TextField("m value");
-		input.setPrefColumnCount(20);
+		TableColumn enabledColumn = new TableColumn("Enabled");
+		functionColumn.setSortable(false);
+		enabledColumn.setCellValueFactory(new PropertyValueFactory<>("enabled"));
+		
+		//Create empty list of table data
+		ObservableList<Function> data = FXCollections.observableArrayList(
+		);
+		
+		//Action event for editing a formula
+		functionColumn.setOnEditCommit((CellEditEvent<Function, String> t) -> {
+			((Function) t.getTableView().getItems().get(
+					t.getTablePosition().getRow())).setFunction(t.getNewValue());
+					GraphField.paintCanvas();//sets the formula and also draws the graph
+		});
+				
+		//Populate table
+		table.setItems(data);
+		table.getColumns().addAll(functionColumn, enabledColumn);
+		
+		//Setup Color Picker
+		ColorPicker functionColorPicker = new ColorPicker(Color.GREEN);
+		functionColorPicker.setMaxWidth(40);
+		ColorPicker graphFieldColorPicker = new ColorPicker(Color.BLACK);
+		graphFieldColorPicker.setMaxWidth(40);
+		
 		
 		//The buttons
-		Button drawButton = new Button("Draw");
+		Button addButton = new Button("Add");
 		Button clearButton = new Button("Clear");
 		
+		//Setup text field
+		TextField inputField = new TextField();
+		inputField.setPromptText("Function f(x)");
+		inputField.setPrefWidth(200);
+		
+		//Setup HBox for colorPicker, inputfield and add button
+		HBox inputHBox = new HBox();
+		inputHBox.getChildren().addAll(functionColorPicker, inputField, addButton);
+		
 		//Add all components except canvas
-		grid.add(yLabel, 0, 0);
-		grid.add(input, 1, 0, 2, 1);
-		grid.add(drawButton, 3, 0);
-		grid.add(clearButton, 4, 0);
-		grid.add(list, 0, 1, 2, 1);
+		grid.add(inputHBox, 0, 0);
+		grid.add(table, 0, 1);
+		grid.add(clearButton, 2, 2);
+		grid.add(graphFieldColorPicker, 2, 1);
 		
 		//Setup Canvas
 		GraphField.initialize(CANVAS_WIDTH, CANVAS_HEIGHT);
-		grid.add(GraphField.getCanvas(), 2, 1, 3, 1);
+		grid.add(GraphField.getCanvas(), 1, 1);
 		
-		//Draw button action event
-		drawButton.setOnAction((ActionEvent e) -> {
-			FormulaExtractor.setFormula(input.getText());
-			GraphField.paintCanvas();//sets the formula and also draws the graph
+		//Action event for the add button
+		addButton.setOnAction((ActionEvent e) -> {
+			Function f = new Function(functionColorPicker.getValue(), inputField.getText(), "true");
+			data.add(f); //Add new Function object
+			GraphField.setFunctionArray(dataToFunctionArray(data));
+			GraphField.paintCanvas();
+			
+			//Clear the inputField
+			inputField.clear();
 		});
 		
 		//Clear button action event
 		clearButton.setOnAction((ActionEvent e) ->{
 			GraphField.clearCanvas();
-			items.clear();
+			data.clear();
+		});
+		
+		//Action Event for graphFieldColorPicker
+		graphFieldColorPicker.setOnAction((ActionEvent) -> {
+			GraphField.setAxisColor(graphFieldColorPicker.getValue());
 		});
 		
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(HSGraph.class.getResource("style.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	private static Function[] dataToFunctionArray(ObservableList<Function> data){
+		Function[] funcArray = new Function[data.toArray().length];
+		Object[] dataArray = data.toArray();
+		
+		for(int i = 0; i < data.toArray().length; i++){
+			funcArray[i] = (Function)dataArray[i];
+		}
+		
+		return funcArray;
 	}
 }

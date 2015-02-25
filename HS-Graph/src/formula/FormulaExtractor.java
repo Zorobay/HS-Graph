@@ -1,3 +1,4 @@
+
 package formula;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class FormulaExtractor {
 	final private static String REG_POLY = "[+-]?\\s*([a-zA-Z]|(\\d+\\.?\\d+[a-zA-Z]?))(\\^[-]?\\d+)?";
 	final private static String REG_CONSTANT = "[+-]?\\s*\\d+(?:\\.\\d+)?(?=[-+\\s]|$)";
 	
-	public static void setFormula(String form){ //Function to be called from HS-Graph. "form" is what the user inputted to the program.
-		GraphField.setArrayOfComponents(generateComponentArray(form));
+	public static List<Component> getComponentList(String func){
+		return generateComponentList(func);
 	}
 	
 	/*
@@ -23,39 +24,40 @@ public class FormulaExtractor {
 	 *this outputs an array of objects of type Component
 	 *that represent the components of the formula
 	 */
-	private static List<Component> generateComponentArray(String form){ 
-		List<String> arrayOfParts = generateArrayOfParts(form);			
-		List<Component> list = new ArrayList<Component>();							  
+	private static List<Component> generateComponentList(String func){ 
+		List<Component> componentList = new ArrayList<Component>();
+		List<String> listOfParts = generateListOfParts(func);								  
 		
-		for(int i = 0; i < arrayOfParts.size(); i++){
-			switch (getType(arrayOfParts.get(i))) {
+		for(int i = 0; i < listOfParts.size(); i++){
+			switch (getType(listOfParts.get(i))) {
 				case "CON": 
-					list.add(new Constant(arrayOfParts.get(i)));
+					System.out.println("Matched constant! (pos: " + i + ")");
+					componentList.add(new Constant(listOfParts.get(i)));
 					break;
 				case "POL":
-					list.add(new Polynomial(arrayOfParts.get(i)));
+					componentList.add(new Polynomial(listOfParts.get(i)));
 					break;
 			}
 		}
 		
-		return list;
+		return componentList;
 	}
 	
-	private static List<String> generateArrayOfParts(String form){ //Separates the different parts of the input formula
+	private static List<String> generateListOfParts(String func){ //Separates the different parts of the input formula
 		
 		Pattern pattern = Pattern.compile(REG_PARTS);
-		Matcher matcher = pattern.matcher(form);
-		List<String> arrayOfParts = new ArrayList<String>();
+		Matcher matcher = pattern.matcher(func);
+		List<String> listOfParts = new ArrayList<String>();
 		
 		while(matcher.find()){
 			if(matcher.group() != null){
-				arrayOfParts.add(matcher.group().trim().replaceAll("\\s", ""));
+				listOfParts.add(matcher.group().trim().replaceAll("\\s", "")); //add found part to list and remove all space characters
 				System.out.println("Found: " + matcher.group().trim().replaceAll("\\s", "") + " at [" + matcher.start() + "," + matcher.end() + "]");
 				//For debug purpose
 			}
 		}
-		System.out.println("Length of array of parts: " + arrayOfParts.size());
-		return arrayOfParts;
+		System.out.println("Length of array of parts: " + listOfParts.size());
+		return listOfParts;
 	}
 	
 	private static String getType(String part){

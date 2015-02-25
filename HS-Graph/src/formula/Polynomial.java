@@ -3,7 +3,7 @@ package formula;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Polynomial extends Component{
+public class Polynomial implements Component{
 	
 	final private static String REG_COEFFICIENT = "[+-]?\\s*(\\d+\\.?\\d*)?(?=[a-zA-Z])";
 	final private static String REG_EXPONENT = "(?<=\\^)[+-]?((\\d+\\.\\d+)|(\\d*))";
