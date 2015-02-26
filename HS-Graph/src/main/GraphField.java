@@ -2,7 +2,8 @@ package main;
 import java.awt.Point;
 import java.util.List;
 
-import formula.*;
+import component.Component;
+import function.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

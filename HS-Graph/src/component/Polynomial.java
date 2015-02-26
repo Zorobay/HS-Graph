@@ -1,4 +1,4 @@
-package formula;
+package component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

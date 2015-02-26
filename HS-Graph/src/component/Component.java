@@ -1,4 +1,4 @@
-package formula;
+package component;
 
 public interface Component { //This is the interface to all component type classes
 	

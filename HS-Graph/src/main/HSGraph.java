@@ -20,8 +20,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import formula.FormulaExtractor;
-import formula.Function;
+import function.FormulaExtractor;
+import function.Function;
 
 public class HSGraph extends Application {
 	
@@ -90,6 +90,12 @@ public class HSGraph extends Application {
 		TextField inputField = new TextField();
 		inputField.setPromptText("Function f(x)");
 		inputField.setPrefWidth(200);
+		
+		//Setup axis scaling
+		TextField xAxisMin = new TextField();
+		TextField xAxisMax = new TextField();
+		TextField yAxisMin = new TextField();
+		TextField yAxisMax = new TextField();
 		
 		//Setup HBox for colorPicker, inputfield and add button
 		HBox inputHBox = new HBox();

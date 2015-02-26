@@ -1,4 +1,4 @@
-package formula;
+package component;
 
 public class Constant implements Component{
 	

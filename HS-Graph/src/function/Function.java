@@ -1,6 +1,8 @@
-package formula;
+package function;
 
 import java.util.List;
+
+import component.Component;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.paint.Color;

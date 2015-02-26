@@ -1,10 +1,14 @@
 
-package formula;
+package function;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import component.Component;
+import component.Constant;
+import component.Polynomial;
 
 import main.GraphField;
 
